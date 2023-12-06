@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/samber/lo"
+	lop "github.com/samber/lo/parallel"
 )
 
 //go:embed input
@@ -44,17 +45,15 @@ func main() {
 	fmt.Printf("part1 answer: %d in %s\n", lo.Min(p1), post.Sub(pre))
 
 	pre = time.Now()
-	p2 := []int{}
-	for len(seeds) > 2 {
+	ans := lo.Min(lop.Map(lo.Chunk(seeds, 2), func(r []int, _ int) int {
 		answers := []int{}
-		for i := seeds[0]; i < seeds[0]+seeds[1]; i++ {
+		for i := r[0]; i < r[0]+r[1]; i++ {
 			answers = append(answers, chain(i))
 		}
-		p2 = append(p2, lo.Min(answers))
-		seeds = seeds[2:]
-	}
+		return lo.Min(answers)
+	}))
 	post = time.Now()
-	fmt.Printf("part2 answer: %d in %s\n", lo.Min(p2), post.Sub(pre))
+	fmt.Printf("part2 answer: %d in %s\n", ans, post.Sub(pre))
 }
 
 // Gather seed values

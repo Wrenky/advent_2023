@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"strings"
 	"time"
+
+	"github.com/samber/lo"
 )
 
 //go:embed demo
@@ -31,6 +33,8 @@ func main() {
 }
 
 // This needs to change to match your actual input
-func parseInput(input string) string {
-	return input
+func parseInput(input string) []string {
+	return lo.Map(strings.Split(input, "\n"), func(line string, _ int) string {
+		return line
+	})
 }
