@@ -1,10 +1,10 @@
 package main
 
 import (
+	"advent/helpers"
 	_ "embed"
 	"fmt"
 	"regexp"
-	"strconv"
 	"strings"
 	"time"
 
@@ -61,11 +61,7 @@ func getSeeds(input string) []int {
 	pattern := regexp.MustCompile(`seeds:\s(.*?)\n`)
 	m := pattern.FindStringSubmatch(input)
 	return lo.FilterMap(strings.Split(m[1], " "), func(digit string, _ int) (int, bool) {
-		if digit == "" {
-			return 0, false
-		}
-		i, _ := strconv.Atoi(digit)
-		return i, true
+		return helpers.Atoi(digit), (digit != "")
 	})
 }
 
@@ -77,11 +73,7 @@ func mapGenerator(input string, pattern *regexp.Regexp) func(int) int {
 			return []int{}, false
 		}
 		return lo.FilterMap(strings.Split(line, " "), func(digit string, _ int) (int, bool) {
-			if digit == "" {
-				return 0, false
-			}
-			i, _ := strconv.Atoi(digit)
-			return i, true
+			return helpers.Atoi(digit), (digit != "")
 		}), true
 	})
 	return func(i int) int {
