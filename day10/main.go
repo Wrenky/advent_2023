@@ -21,12 +21,12 @@ func init() {
 }
 
 type coord struct {
-	col int
-	row int
+	y int
+	x int
 }
 
 func (c *coord) String() string {
-	return fmt.Sprintf("{%d, %d}", c.col, c.row)
+	return fmt.Sprintf("{%d, %d}", c.y, c.x)
 }
 
 func main() {
@@ -76,9 +76,8 @@ func vertexPath(start coord, grid [][]rune) []coord {
 
 func nextPoints(curr coord, grid [][]rune) []coord {
 	var addVal []coord
-	switch grid[curr.col][curr.row] {
+	switch grid[curr.y][curr.x] {
 	case '|':
-		// Vertical bar!
 		addVal = []coord{{1, 0}, {-1, 0}}
 	case '-':
 		addVal = []coord{{0, 1}, {0, -1}}
@@ -96,25 +95,25 @@ func nextPoints(curr coord, grid [][]rune) []coord {
 	}
 	// Only one here
 	return lo.Map(addVal, func(n coord, _ int) coord {
-		return coord{curr.col + n.col, curr.row + n.row}
+		return coord{curr.y + n.y, curr.x + n.x}
 	})
 }
 
 func surroundingPoints(c coord, grid [][]rune) []coord {
 	var res []coord
-	up := grid[c.col-1][c.row]
+	up := grid[c.y-1][c.x]
 	if up == '|' || up == '7' || up == 'F' {
 		res = append(res, coord{-1, 0})
 	}
-	down := grid[c.col+1][c.row]
+	down := grid[c.y+1][c.x]
 	if down == '|' || down == 'L' || down == 'J' {
 		res = append(res, coord{1, 0})
 	}
-	left := grid[c.col][c.row-1]
+	left := grid[c.y][c.x-1]
 	if left == '-' || left == 'L' || left == 'F' {
 		res = append(res, coord{0, -1})
 	}
-	right := grid[c.col][c.row+1]
+	right := grid[c.y][c.x+1]
 	if right == '-' || right == '7' || right == 'J' {
 		res = append(res, coord{0, 1})
 	}
@@ -124,9 +123,9 @@ func surroundingPoints(c coord, grid [][]rune) []coord {
 // This needs to change to match your actual input
 func parseInput(input string) ([][]rune, coord) {
 	var start coord
-	return lo.Map(strings.Split(input, "\n"), func(line string, col int) []rune {
+	return lo.Map(strings.Split(input, "\n"), func(line string, y int) []rune {
 		if lo.Contains([]rune(line), 'S') {
-			start = coord{col: col + 1, row: lo.IndexOf([]rune(line), 'S') + 1}
+			start = coord{y: y + 1, x: lo.IndexOf([]rune(line), 'S') + 1}
 		}
 		return []rune(line)
 	}), start
@@ -141,7 +140,7 @@ func shoelace(c []coord) int {
 	sum := 0
 	p0 := c[len(c)-1]
 	for _, p1 := range c {
-		sum += p0.col*p1.row - p0.row*p1.col
+		sum += p0.y*p1.x - p0.x*p1.y
 		p0 = p1
 	}
 	res := math.Abs(float64(sum / 2))
