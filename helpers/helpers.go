@@ -28,6 +28,22 @@ func Atoi(in string) int {
 	return i
 }
 
+// Make it generic?
+func Transpose(slice [][]rune) [][]rune {
+	xl := len(slice[0])
+	yl := len(slice)
+	result := make([][]rune, xl)
+	for i := range result {
+		result[i] = make([]rune, yl)
+	}
+	for i := 0; i < xl; i++ {
+		for j := 0; j < yl; j++ {
+			result[i][j] = slice[j][i]
+		}
+	}
+	return result
+}
+
 // coordinates! Mostly for grid problems
 // These are annoying because in math its x,y, but in code is [col][row]
 type Coord struct {
