@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"math"
 	"strconv"
+
+	"github.com/samber/lo"
 )
 
 //Graphs: https://github.com/dominikbraun/graph
@@ -42,6 +44,21 @@ func Transpose(slice [][]rune) [][]rune {
 		}
 	}
 	return result
+}
+func Rotate90(slice [][]rune) [][]rune {
+	transposed := Transpose(slice)
+	result := [][]rune{}
+	for _, v := range transposed {
+		result = append(result, lo.Reverse(v))
+	}
+	return result
+}
+func RotateN90(slice [][]rune) [][]rune {
+	result := [][]rune{}
+	for _, v := range slice {
+		result = append(result, lo.Reverse(v))
+	}
+	return Transpose(result)
 }
 
 // coordinates! Mostly for grid problems
