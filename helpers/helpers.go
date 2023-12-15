@@ -30,13 +30,15 @@ func Atoi(in string) int {
 	return i
 }
 
-// Make it generic?
-func Transpose(slice [][]rune) [][]rune {
+// ---------------------------------------------------------------
+// Grid/2d array helpers
+// ---------------------------------------------------------------
+func Transpose[S any](slice [][]S) [][]S {
 	xl := len(slice[0])
 	yl := len(slice)
-	result := make([][]rune, xl)
+	result := make([][]S, xl)
 	for i := range result {
-		result[i] = make([]rune, yl)
+		result[i] = make([]S, yl)
 	}
 	for i := 0; i < xl; i++ {
 		for j := 0; j < yl; j++ {
@@ -45,21 +47,23 @@ func Transpose(slice [][]rune) [][]rune {
 	}
 	return result
 }
-func Rotate90(slice [][]rune) [][]rune {
+func Rotate90[S any](slice [][]S) [][]S {
 	transposed := Transpose(slice)
-	result := [][]rune{}
+	result := [][]S{}
 	for _, v := range transposed {
 		result = append(result, lo.Reverse(v))
 	}
 	return result
 }
-func RotateN90(slice [][]rune) [][]rune {
-	result := [][]rune{}
+func RotateN90[S any](slice [][]S) [][]S {
+	result := [][]S{}
 	for _, v := range slice {
 		result = append(result, lo.Reverse(v))
 	}
 	return Transpose(result)
 }
+
+// ---------------------------------------------------------------
 
 // coordinates! Mostly for grid problems
 // These are annoying because in math its x,y, but in code is [col][row]
