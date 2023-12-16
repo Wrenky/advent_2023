@@ -4,7 +4,6 @@ import (
 	_ "embed"
 	"fmt"
 	"strings"
-	"time"
 
 	"github.com/samber/lo"
 )
@@ -21,15 +20,13 @@ func init() {
 }
 
 func main() {
-	pre, parsed, post := time.Now(), parseInput(data), time.Now()
-	fmt.Printf("Data parsing took %s\n", post.Sub(pre))
+	parsed := parseInput(data)
 
-	pre, ans, post := time.Now(), len(parsed), time.Now()
-	fmt.Printf("Part1 answer: %d, in %s\n", ans, post.Sub(pre))
-
-	pre, ans, post = time.Now(), 0, time.Now()
-	fmt.Printf("Part2 answer: %d, in %s\n", ans, post.Sub(pre))
-
+	for _, v := range parsed {
+		fmt.Printf("%v\n", v)
+	}
+	//pre, ans, post := time.Now(), len(parsed), time.Now()
+	//fmt.Printf("Part1 answer: %d, in %s\n", ans, post.Sub(pre))
 }
 
 // This needs to change to match your actual input
