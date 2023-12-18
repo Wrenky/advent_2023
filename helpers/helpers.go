@@ -93,18 +93,18 @@ func (c Coord) Add(o Coord) Coord {
 // With shoelace formula you can calculate inner points!
 // https://artofproblemsolving.com/wiki/index.php/Pick%27s_Theorem
 // https://en.wikipedia.org/wiki/Pick%27s_theorem
-func picks(inner int, border int) int {
+func Picks(inner int, border int) int {
 	return inner + (border / 2) - 1
 }
-func picksInnerPoints(c []Coord) int {
-	return shoelace(c) - (len(c) / 2) + 1
+func PicksInnerPoints(c []Coord) int {
+	return Shoelace(c) - (len(c) / 2) + 1
 }
 
 // Shoelace foruma  is for finding the area of a polygon given its vertex coordinates
 // References:
 // https://artofproblemsolving.com/wiki/index.php/Shoelace_Theorem
 // https://en.wikipedia.org/wiki/Shoelace_formula
-func shoelace(c []Coord) int {
+func Shoelace(c []Coord) int {
 	sum := 0
 	p0 := c[len(c)-1]
 	for _, p1 := range c {
